@@ -82,7 +82,7 @@ export function CockroachOverlay({ active }: { active: boolean }) {
         animationClass: animationClasses[Math.floor(Math.random() * animationClasses.length)],
         duration: `${Math.random() * 3 + 6}s`, 
         delay: `${Math.random() * 8}s`,
-        scale: 0.25 + Math.random() * 0.2, 
+        scale: 0.5 + Math.random() * 0.4,
       }));
       setBugs(newBugs);
     } else {
@@ -101,14 +101,20 @@ export function CockroachOverlay({ active }: { active: boolean }) {
           style={{
             animationDuration: bug.duration,
             animationDelay: bug.delay,
-            transform: `scale(${bug.scale})`,
+            // Stay at the off-screen start point while waiting, instead of piling up top-left.
+            animationFillMode: "backwards",
+            top: 0,
+            left: 0,
             width: "80px",
             height: "120px",
           }}
         >
-          {/* Leg vibration animation nested inside the scurry */}
-          <div className="animate-bug-vibrate origin-center w-full h-full">
-            <RealisticCockroach />
+          {/* Size lives on its own wrapper: the scurry animation's transform would overwrite it. */}
+          <div className="w-full h-full origin-center" style={{ transform: `scale(${bug.scale})` }}>
+            {/* Leg vibration animation nested inside the scurry */}
+            <div className="animate-bug-vibrate origin-center w-full h-full">
+              <RealisticCockroach />
+            </div>
           </div>
         </div>
       ))}

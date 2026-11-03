@@ -6,7 +6,8 @@ import { FocusMeter } from "@/components/FocusMeter";
 import { BarChart, Bar, ResponsiveContainer, XAxis, Cell } from "recharts";
 import { Eye, Star, Sparkles, Timer, AlertCircle, ShieldCheck, Shield, Trophy, Loader2, Info } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useScreenTime, formatMinutes } from "@/hooks/use-screen-time";
 import { generateSmartBreakPrompt, type SmartBreakPromptOutput } from "@/ai/flows/ai-smart-break-prompt";
 import { toast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
@@ -23,7 +24,7 @@ const DATA = [
 export default function KidDashboard() {
   const { user } = useUser();
   const { firestore: db } = useFirebase();
-  const [focusValue, setFocusValue] = useState(85);
+  const { minutes: usedMinutes } = useScreenTime();
   const [breakSuggestion, setBreakSuggestion] = useState<SmartBreakPromptOutput | null>(null);
 
   // Fetch children to get the child's name dynamically
@@ -35,13 +36,19 @@ export default function KidDashboard() {
   const { data: childrenData, isLoading: isChildrenLoading } = useCollection(childrenQuery);
 
   const explorerName = childrenData?.[0]?.name || "Explorer";
+  const dailyLimit = childrenData?.[0]?.dailyScreenTimeLimitMinutes || 120;
+  // Energy drains as the day's screen time approaches the parent's limit.
+  const focusValue = Math.max(5, Math.round(100 - (usedMinutes / dailyLimit) * 100));
+  const isLowFocus = focusValue < 30;
+  const promptShownRef = useRef(false);
 
   useEffect(() => {
+    if (!isLowFocus || promptShownRef.current) return;
     const timer = setTimeout(async () => {
-      setFocusValue(25);
+      promptShownRef.current = true;
       const output = await generateSmartBreakPrompt({
         childName: explorerName,
-        screenTimeMinutes: 195,
+        screenTimeMinutes: usedMinutes,
         lastActivityCategory: "Educational",
         isEyeRestNeeded: true
       });
@@ -52,12 +59,11 @@ export default function KidDashboard() {
         description: output.suggestionText,
         duration: 10000,
       });
-    }, 8000);
+    }, 3000);
 
     return () => clearTimeout(timer);
-  }, [explorerName]);
-
-  const isLowFocus = focusValue < 30;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLowFocus, explorerName]);
 
   if (isChildrenLoading) {
     return (
@@ -139,7 +145,8 @@ export default function KidDashboard() {
                     <Timer className="h-8 w-8 text-primary" />
                   </div>
                   <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Screen Time</p>
-                  <p className="text-2xl font-black">3h 15m</p>
+                  <p className="text-2xl font-black">{formatMinutes(usedMinutes)}</p>
+                  <p className="text-xs font-bold text-muted-foreground">of {formatMinutes(dailyLimit)} limit</p>
                 </div>
                 <div className="space-y-1">
                   <div className="bg-accent/10 p-4 rounded-3xl inline-block mb-1">

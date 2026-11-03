@@ -38,14 +38,8 @@ export default function ParentSettings() {
         firstName: parentProfile.firstName || "",
         lastName: parentProfile.lastName || "",
         receiveWeeklyReportEmail: parentProfile.receiveWeeklyReportEmail || false,
+        enableCockroachDeterrent: parentProfile.enableCockroachDeterrent !== false,
       }));
-    }
-    const saved = localStorage.getItem('parent-settings');
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        setSettings(prev => ({ ...prev, ...parsed }));
-      } catch (e) {}
     }
   }, [parentProfile]);
 
@@ -57,11 +51,10 @@ export default function ParentSettings() {
       firstName: settings.firstName,
       lastName: settings.lastName,
       receiveWeeklyReportEmail: settings.receiveWeeklyReportEmail,
+      enableCockroachDeterrent: settings.enableCockroachDeterrent,
       email: user.email || "",
       isPro: parentProfile?.isPro || false,
     }, { merge: true });
-
-    localStorage.setItem('parent-settings', JSON.stringify(settings));
 
     toast({
       title: "Settings Saved!",

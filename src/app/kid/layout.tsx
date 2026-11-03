@@ -5,10 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/app/lib/placeholder-images";
 import { Lock, Loader2 } from "lucide-react";
 import { CockroachOverlay } from "@/components/CockroachOverlay";
-import { useEffect, useState, useRef } from "react";
+import { useEffect } from "react";
+import { useScreenTime } from "@/hooks/use-screen-time";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useFirebase, useUser, useCollection, useMemoFirebase, useDoc } from "@/firebase";
 import { collection, doc } from "firebase/firestore";
 import { KidsyeeLogo, KidsyeeTextLogo } from "@/components/Logo";
@@ -23,9 +24,12 @@ export default function KidLayout({
   const { firestore: db } = useFirebase();
   const avatar = PlaceHolderImages.find(img => img.id === 'avatar-buddy');
   
-  const [isCockroachModeActive, setIsCockroachModeActive] = useState(false);
-  const [simulatedUsageMinutes, setSimulatedUsageMinutes] = useState(200);
-  const deterrentTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const router = useRouter();
+  const { minutes: usedMinutes, isOnBreakGrace, startBreakGrace } = useScreenTime();
+
+  useEffect(() => {
+    if (!isAuthLoading && !user) router.push("/login");
+  }, [isAuthLoading, user, router]);
 
   const childrenQuery = useMemoFirebase(() => {
     if (!db || !user) return null;
@@ -43,45 +47,24 @@ export default function KidLayout({
 
   const { data: liveChild } = useDoc(childRef);
 
+  // Parent's Cockroach Mode switch lives on the parent profile, so it applies on every device.
+  const parentRef = useMemoFirebase(() => {
+    if (!db || !user) return null;
+    return doc(db, "parentProfiles", user.uid);
+  }, [db, user]);
+  const { data: parentProfile } = useDoc(parentRef);
+  const cockroachEnabled = parentProfile?.enableCockroachDeterrent !== false;
+
   const isSafeZone = pathname === "/kid/eye-health";
-  
-  const limitReached = simulatedUsageMinutes >= (liveChild?.dailyScreenTimeLimitMinutes || 120);
-  const shouldDisplayBugs = isCockroachModeActive && limitReached && !isSafeZone;
-
-  const checkSettingsAndSetTimer = () => {
-    if (deterrentTimerRef.current) {
-      clearTimeout(deterrentTimerRef.current);
-      deterrentTimerRef.current = null;
-    }
-    
-    const savedSettings = localStorage.getItem('parent-settings');
-    let settings = { enableCockroachDeterrent: true };
-    if (savedSettings) {
-      try { settings = JSON.parse(savedSettings); } catch (e) {}
-    }
-
-    if (settings.enableCockroachDeterrent) {
-      deterrentTimerRef.current = setTimeout(() => {
-        setIsCockroachModeActive(true);
-      }, 3000);
-    }
-  };
+  const dailyLimit = liveChild?.dailyScreenTimeLimitMinutes || 120;
+  const limitReached = usedMinutes >= dailyLimit;
+  const shouldDisplayBugs = cockroachEnabled && limitReached && !isOnBreakGrace && !isSafeZone;
 
   useEffect(() => {
-    checkSettingsAndSetTimer();
-    
-    const handleBreakCompleted = () => {
-      setIsCockroachModeActive(false);
-      setSimulatedUsageMinutes(0);
-      checkSettingsAndSetTimer();
-    };
-
+    const handleBreakCompleted = () => startBreakGrace();
     window.addEventListener('mindful-play:break-completed', handleBreakCompleted);
-    return () => {
-      if (deterrentTimerRef.current) clearTimeout(deterrentTimerRef.current);
-      window.removeEventListener('mindful-play:break-completed', handleBreakCompleted);
-    };
-  }, []);
+    return () => window.removeEventListener('mindful-play:break-completed', handleBreakCompleted);
+  }, [startBreakGrace]);
 
   if (isAuthLoading || isChildrenLoading) {
     return (

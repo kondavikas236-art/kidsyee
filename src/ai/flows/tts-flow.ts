@@ -91,11 +91,11 @@ async function toWav(
     });
 
     let bufs = [] as any[];
-    writer.on('error', (err) => {
+    writer.on('error', (err: Error) => {
       console.error('Wav Writer Error:', err);
       reject(err);
     });
-    writer.on('data', function (d) {
+    writer.on('data', function (d: Buffer) {
       bufs.push(d);
     });
     writer.on('end', function () {

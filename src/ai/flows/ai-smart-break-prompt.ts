@@ -71,7 +71,7 @@ const smartBreakPromptFlow = ai.defineFlow(
       console.error('AI Smart Break Prompt failed, providing fallback:', error);
       // Fallback response for high demand or transient failures
       return {
-        suggestionType: 'general_break',
+        suggestionType: 'general_break' as const,
         suggestionText: `Hey ${input.childName || 'Explorer'}, your digital buddy here! You've been doing an amazing job. How about we take a quick 2-minute "Power Pause"? Stand up, reach for the stars, and take three deep breaths. Your brain and eyes will feel supercharged! ✨`
       };
     }
