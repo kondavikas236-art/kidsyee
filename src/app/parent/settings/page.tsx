@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { ShieldCheck, Mail, Loader2, User, Sparkles } from "lucide-react";
+import { ShieldCheck, Mail, Loader2, User, Sparkles, Lock } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { useFirestore, useUser, useDoc, useMemoFirebase } from "@/firebase";
 import { doc } from "firebase/firestore";
@@ -117,6 +117,25 @@ export default function ParentSettings() {
               </div>
               <Switch checked={settings.enableCockroachDeterrent} onCheckedChange={(val) => setSettings({...settings, enableCockroachDeterrent: val})} />
             </div>
+          </CardContent>
+        </Card>
+
+        <Card className="rounded-[2rem]">
+          <CardHeader>
+            <div className="flex items-center gap-2 mb-2">
+              <Lock className="h-5 w-5 text-primary" />
+              <CardTitle>Parent PIN</CardTitle>
+            </div>
+            <CardDescription>Kids need this PIN to open the parent section.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Button
+              variant="outline"
+              className="rounded-full font-bold"
+              onClick={() => parentRef && user && setDocumentNonBlocking(parentRef, { id: user.uid, parentPinHash: null }, { merge: true })}
+            >
+              Change PIN
+            </Button>
           </CardContent>
         </Card>
 

@@ -5,7 +5,11 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { PlaceHolderImages } from "@/app/lib/placeholder-images";
 import { Lock, Loader2 } from "lucide-react";
 import { CockroachOverlay } from "@/components/CockroachOverlay";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { SnakeOverlay } from "@/components/SnakeOverlay";
+import { lockParentArea } from "@/components/ParentPinGate";
+
+const CREATURE_SWAP_MS = 20_000;
 import { useScreenTime } from "@/hooks/use-screen-time";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
@@ -26,6 +30,9 @@ export default function KidLayout({
   
   const router = useRouter();
   const { minutes: usedMinutes, isOnBreakGrace, startBreakGrace } = useScreenTime();
+
+  // Coming back to kid mode locks the parent section again.
+  useEffect(() => { lockParentArea(); }, []);
 
   useEffect(() => {
     if (!isAuthLoading && !user) router.push("/login");
@@ -58,7 +65,15 @@ export default function KidLayout({
   const isSafeZone = pathname === "/kid/eye-health";
   const dailyLimit = liveChild?.dailyScreenTimeLimitMinutes || 120;
   const limitReached = usedMinutes >= dailyLimit;
-  const shouldDisplayBugs = cockroachEnabled && limitReached && !isOnBreakGrace && !isSafeZone;
+  const shouldDisplayCreatures = cockroachEnabled && limitReached && !isOnBreakGrace && !isSafeZone;
+
+  // Cockroaches and snakes take turns while the limit is exceeded.
+  const [creature, setCreature] = useState<"cockroach" | "snake">("cockroach");
+  useEffect(() => {
+    if (!shouldDisplayCreatures) return;
+    const id = setInterval(() => setCreature((c) => (c === "cockroach" ? "snake" : "cockroach")), CREATURE_SWAP_MS);
+    return () => clearInterval(id);
+  }, [shouldDisplayCreatures]);
 
   useEffect(() => {
     const handleBreakCompleted = () => startBreakGrace();
@@ -76,7 +91,8 @@ export default function KidLayout({
 
   return (
     <div className="flex flex-col min-h-screen pb-20 md:pb-0 md:flex-row relative overflow-x-hidden">
-      <CockroachOverlay active={shouldDisplayBugs} />
+      <CockroachOverlay active={shouldDisplayCreatures && creature === "cockroach"} />
+      <SnakeOverlay active={shouldDisplayCreatures && creature === "snake"} />
       
       <div className="hidden md:flex md:w-64 md:flex-col glass-strong md:m-4 md:mr-0 md:rounded-[2rem]">
         <div className="p-8">

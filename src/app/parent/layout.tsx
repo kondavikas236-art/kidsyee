@@ -12,6 +12,7 @@ import { signOut } from "firebase/auth";
 import { toast } from "@/hooks/use-toast";
 import { doc } from "firebase/firestore";
 import { KidsyeeLogo, KidsyeeTextLogo } from "@/components/Logo";
+import { ParentPinGate, lockParentArea } from "@/components/ParentPinGate";
 
 export default function ParentLayout({
   children,
@@ -28,7 +29,7 @@ export default function ParentLayout({
     return doc(db, "parentProfiles", user.uid);
   }, [db, user]);
 
-  const { data: parentProfile } = useDoc(parentRef);
+  const { data: parentProfile, isLoading: isProfileLoading } = useDoc(parentRef);
 
   useEffect(() => {
     if (!isUserLoading && !user) {
@@ -71,6 +72,13 @@ export default function ParentLayout({
   const parentDisplayName = parentProfile?.firstName || user.email?.split('@')[0] || "Parent";
 
   return (
+    <ParentPinGate
+      uid={user.uid}
+      email={user.email}
+      pinHash={parentProfile?.parentPinHash}
+      isLoading={isProfileLoading}
+      parentRef={parentRef}
+    >
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
       <header className="glass-strong h-20 flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center space-x-3">
@@ -103,7 +111,7 @@ export default function ParentLayout({
                {parentDisplayName.substring(0, 1).toUpperCase()}
              </div>
              <span className="hidden sm:inline text-sm font-bold text-foreground pr-1">{parentDisplayName}</span>
-             <Button variant="ghost" size="icon" onClick={() => signOut(auth)} className="h-8 w-8 text-muted-foreground hover:text-destructive rounded-full">
+             <Button variant="ghost" size="icon" onClick={() => { lockParentArea(); signOut(auth); }} className="h-8 w-8 text-muted-foreground hover:text-destructive rounded-full">
                <LogOut className="h-4 w-4" />
              </Button>
            </div>
@@ -131,5 +139,6 @@ export default function ParentLayout({
         <Navigation />
       </div>
     </div>
+    </ParentPinGate>
   );
 }

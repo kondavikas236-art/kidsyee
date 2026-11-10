@@ -184,3 +184,28 @@
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Snakes slither across the screen (left->right, right->left) */
+@keyframes snake-ltr {
+  0% { transform: translate(-380px, 0) rotate(4deg); }
+  50% { transform: translate(calc(50vw - 170px), 6vh) rotate(-4deg); }
+  100% { transform: translate(calc(100vw + 40px), -2vh) rotate(3deg); }
+}
+@keyframes snake-rtl {
+  0% { transform: translate(calc(100vw + 40px), 0) rotate(-4deg); }
+  50% { transform: translate(calc(50vw - 170px), -6vh) rotate(4deg); }
+  100% { transform: translate(-380px, 3vh) rotate(-3deg); }
+}
+.animate-snake-ltr { animation: snake-ltr 12s infinite linear; }
+.animate-snake-rtl { animation: snake-rtl 12s infinite linear; }
+
+/* Forked tongue flick */
+@keyframes sn-tongue {
+  0%, 55%, 100% { transform: scaleX(0); }
+  62%, 72% { transform: scaleX(1); }
+  67% { transform: scaleX(0.6); }
+}
+.sn-tongue { transform-box: view-box; transform-origin: 22px 0; animation: sn-tongue 1.4s infinite; }
+
+@keyframes pin-shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-10px); } 40%,80% { transform: translateX(10px); } }
+.animate-pin-shake { animation: pin-shake 0.4s ease-in-out; }
