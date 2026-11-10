@@ -60,7 +60,7 @@ export default function ParentLayout({
 
   if (isUserLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
+      <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
@@ -72,7 +72,7 @@ export default function ParentLayout({
 
   return (
     <div className="flex flex-col min-h-screen bg-[#F8FAFC]">
-      <header className="h-20 border-b bg-white flex items-center justify-between px-8 sticky top-0 z-50">
+      <header className="glass-strong h-20 flex items-center justify-between px-8 sticky top-0 z-50">
         <div className="flex items-center space-x-3">
            <Link href="/" className="flex items-center space-x-2 group">
              <div className="bg-primary p-2 rounded-xl text-white group-hover:rotate-12 transition-transform shadow-md">
@@ -111,7 +111,7 @@ export default function ParentLayout({
       </header>
 
       <div className="flex-1 flex flex-col md:flex-row relative">
-        <aside className="hidden md:flex w-64 border-r bg-white p-6 flex-col sticky top-20 h-[calc(100vh-5rem)]">
+        <aside className="glass-strong hidden md:flex w-64 p-6 flex-col sticky top-20 h-[calc(100vh-5rem)]">
           <div className="flex-1">
             <Navigation />
           </div>

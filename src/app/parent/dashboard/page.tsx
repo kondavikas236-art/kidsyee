@@ -153,7 +153,7 @@ export default function ParentDashboard() {
       </div>
 
       {!parentProfile?.isPro && (
-        <Card className="rounded-[2.5rem] border-none bg-gradient-to-r from-primary to-blue-600 text-white shadow-xl overflow-hidden relative group">
+        <Card className="rounded-[2.5rem] bg-gradient-to-r from-primary to-blue-600 text-white overflow-hidden relative group">
           <div className="absolute top-0 right-0 p-8 opacity-10 group-hover:scale-110 transition-transform">
             <Zap className="h-32 w-32" />
           </div>
@@ -184,7 +184,7 @@ export default function ParentDashboard() {
         </Card>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <Card className="rounded-2xl border-none shadow-sm bg-white">
+          <Card className="rounded-2xl">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-primary" /> Daily Avg
@@ -198,7 +198,7 @@ export default function ParentDashboard() {
             </CardContent>
           </Card>
           
-          <Card className="rounded-2xl border-none shadow-sm bg-white">
+          <Card className="rounded-2xl">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center gap-2">
                 <CheckCircle2 className="h-4 w-4 text-accent-foreground" /> Goal Progress
@@ -210,7 +210,7 @@ export default function ParentDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl border-none shadow-sm bg-white">
+          <Card className="rounded-2xl">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center gap-2">
                 <Smartphone className="h-4 w-4 text-blue-500" /> System Active
@@ -224,7 +224,7 @@ export default function ParentDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="rounded-2xl border-none shadow-sm bg-white border-l-4 border-l-destructive">
+          <Card className="rounded-2xl border-l-4 border-l-destructive">
             <CardHeader className="pb-2">
               <CardDescription className="flex items-center gap-2">
                 <AlertCircle className="h-4 w-4 text-destructive" /> Active Alerts
@@ -240,7 +240,7 @@ export default function ParentDashboard() {
 
       {children && children.length > 0 && (
         <>
-          <Card className="rounded-3xl border-none shadow-sm bg-white overflow-hidden">
+          <Card className="rounded-3xl overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between">
               <div>
                 <CardTitle>Global Usage Trends</CardTitle>
@@ -276,7 +276,7 @@ export default function ParentDashboard() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {children.map((child) => (
                 <Link key={child.id} href={`/parent/child/${child.id}`}>
-                  <Card className="rounded-[2.5rem] border-none shadow-sm bg-white hover:shadow-xl transition-all cursor-pointer group relative overflow-hidden">
+                  <Card className="rounded-[2.5rem] hover:shadow-xl transition-all cursor-pointer group relative overflow-hidden">
                     <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                       <ChevronRight className="h-6 w-6 text-primary" />
                     </div>

@@ -80,7 +80,7 @@ export default function DiaryPage() {
         <p className="text-muted-foreground font-medium">Tell me about your day, {explorerName}! I'm all ears. 👂</p>
       </div>
 
-      <Card className="rounded-[2.5rem] border-2 border-primary/20 shadow-xl overflow-hidden bg-white/80 backdrop-blur-sm">
+      <Card className="rounded-[2.5rem] border-2 border-primary/20 overflow-hidden">
         <CardContent className="p-0">
           <ScrollArea className="h-[450px] p-6" ref={scrollRef}>
             {messages.length === 0 ? (

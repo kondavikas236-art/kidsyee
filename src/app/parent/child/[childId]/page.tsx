@@ -101,7 +101,7 @@ export default function ChildReportPage() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white">
+        <Card className="rounded-[2.5rem]">
           <CardHeader className="pb-2">
             <CardDescription className="flex items-center gap-2 font-bold text-primary">
               <Clock className="h-4 w-4" /> Usage Today
@@ -113,7 +113,7 @@ export default function ChildReportPage() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white">
+        <Card className="rounded-[2.5rem]">
           <CardHeader className="pb-2">
             <CardDescription className="flex items-center gap-2 font-bold text-accent-foreground">
               <Eye className="h-4 w-4" /> Eye Health Score
@@ -125,7 +125,7 @@ export default function ChildReportPage() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-[2.5rem] border-none shadow-sm bg-white">
+        <Card className="rounded-[2.5rem]">
           <CardHeader className="pb-2">
             <CardDescription className="flex items-center gap-2 font-bold text-purple-500">
               <Trophy className="h-4 w-4" /> Gym Badges
@@ -140,7 +140,7 @@ export default function ChildReportPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-6">
-          <Card className="rounded-[3rem] border-none shadow-xl bg-white overflow-hidden">
+          <Card className="rounded-[3rem] overflow-hidden">
             <CardHeader>
               <CardTitle>Usage History</CardTitle>
               <CardDescription>Daily screen time over the last 7 days</CardDescription>
@@ -161,7 +161,7 @@ export default function ChildReportPage() {
             </CardContent>
           </Card>
 
-          <Card className="rounded-[3rem] border-none shadow-xl bg-white">
+          <Card className="rounded-[3rem]">
             <CardHeader>
               <CardTitle>Recent Gym Achievements</CardTitle>
             </CardHeader>
@@ -184,7 +184,7 @@ export default function ChildReportPage() {
         </div>
 
         <div className="space-y-6">
-          <Card className="rounded-[3rem] border-none shadow-xl bg-white sticky top-24">
+          <Card className="rounded-[3rem] sticky top-24">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Timer className="h-5 w-5 text-primary" /> Eye Health Limits

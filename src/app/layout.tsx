@@ -49,7 +49,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Kidsyee" />
       </head>
-      <body className="font-body antialiased min-h-screen flex flex-col bg-[#F8FAFC] select-none touch-pan-y">
+      <body className="font-body antialiased min-h-screen flex flex-col select-none touch-pan-y">
         <FirebaseClientProvider>
           {children}
           <Toaster />

@@ -33,8 +33,35 @@
     -webkit-tap-highlight-color: transparent;
   }
   body {
-    @apply bg-background text-foreground font-body overflow-x-hidden;
+    @apply text-foreground font-body overflow-x-hidden;
     overscroll-behavior-y: contain;
+    background-color: hsl(var(--background));
+    /* Soft pastel "aurora" behind every screen so the glass has something to blur */
+    background-image:
+      radial-gradient(40rem 40rem at -10% -10%, hsl(199 85% 78% / 0.75), transparent 60%),
+      radial-gradient(35rem 35rem at 110% 10%, hsl(265 85% 85% / 0.7), transparent 60%),
+      radial-gradient(40rem 40rem at 100% 100%, hsl(160 70% 80% / 0.65), transparent 60%),
+      radial-gradient(30rem 30rem at 0% 90%, hsl(30 95% 85% / 0.6), transparent 60%);
+    background-attachment: fixed;
+    min-height: 100vh;
+  }
+}
+
+@layer components {
+  /* Frosted glass surface used by cards, headers and the bottom bar */
+  .glass {
+    background-color: rgb(255 255 255 / 0.55);
+    -webkit-backdrop-filter: blur(20px) saturate(170%);
+    backdrop-filter: blur(20px) saturate(170%);
+    border: 1px solid rgb(255 255 255 / 0.7);
+    box-shadow: 0 8px 32px rgb(31 64 104 / 0.08), inset 0 1px 0 rgb(255 255 255 / 0.8);
+  }
+  .glass-strong {
+    background-color: rgb(255 255 255 / 0.72);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid rgb(255 255 255 / 0.85);
+    box-shadow: 0 12px 40px rgb(31 64 104 / 0.12), inset 0 1px 0 rgb(255 255 255 / 0.9);
   }
 }
 
@@ -133,18 +160,27 @@
   100% { transform: translate(-20vw, -20vh) rotate(-135deg); }
 }
 
+/* Subtle body sway while running (was a harsh jitter) */
 @keyframes bug-vibrate {
-  0%, 100% { transform: scale(1) rotate(0deg); }
-  25% { transform: scale(1.05) rotate(2deg); }
-  50% { transform: scale(0.95) rotate(-2deg); }
-  75% { transform: scale(1.02) rotate(1deg); }
+  0%, 100% { transform: rotate(-1.5deg) translateX(-0.5px); }
+  50% { transform: rotate(1.5deg) translateX(0.5px); }
 }
+
+/* Cockroach legs: tripod gait, groups A and B swing in opposite phase */
+@keyframes cr-leg-a { from { transform: rotate(-9deg); } to { transform: rotate(9deg); } }
+@keyframes cr-leg-b { from { transform: rotate(9deg); } to { transform: rotate(-9deg); } }
+@keyframes cr-antenna { 0%,100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+.cr-leg-a, .cr-leg-b, .cr-antenna-l, .cr-antenna-r { transform-box: view-box; }
+.cr-leg-a { animation: cr-leg-a 0.12s infinite alternate ease-in-out; }
+.cr-leg-b { animation: cr-leg-b 0.12s infinite alternate ease-in-out; }
+.cr-antenna-l { animation: cr-antenna 0.9s infinite ease-in-out; }
+.cr-antenna-r { animation: cr-antenna 0.9s infinite ease-in-out reverse; }
 
 .animate-scurry-1 { animation: scurry-tl-br 7s infinite linear; }
 .animate-scurry-2 { animation: scurry-tr-bl 8s infinite linear; }
 .animate-scurry-3 { animation: scurry-bl-tr 9s infinite linear; }
 .animate-scurry-4 { animation: scurry-br-tl 7.5s infinite linear; }
-.animate-bug-vibrate { animation: bug-vibrate 0.1s infinite linear; }
+.animate-bug-vibrate { animation: bug-vibrate 0.24s infinite ease-in-out; }
 
 .scrollbar-hide::-webkit-scrollbar { display: none; }
 .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }

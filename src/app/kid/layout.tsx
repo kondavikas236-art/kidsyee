@@ -68,17 +68,17 @@ export default function KidLayout({
 
   if (isAuthLoading || isChildrenLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
+      <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="flex flex-col min-h-screen bg-background pb-20 md:pb-0 md:flex-row relative overflow-x-hidden">
+    <div className="flex flex-col min-h-screen pb-20 md:pb-0 md:flex-row relative overflow-x-hidden">
       <CockroachOverlay active={shouldDisplayBugs} />
       
-      <div className="hidden md:flex md:w-64 md:flex-col md:border-r bg-white/50 backdrop-blur-sm">
+      <div className="hidden md:flex md:w-64 md:flex-col glass-strong md:m-4 md:mr-0 md:rounded-[2rem]">
         <div className="p-8">
            <Link href="/">
              <div className="flex flex-col items-center gap-2 group cursor-pointer hover:scale-105 transition-transform">
@@ -91,7 +91,7 @@ export default function KidLayout({
       </div>
 
       <main className="flex-1 flex flex-col h-screen overflow-auto scrollbar-hide">
-        <header className="flex justify-between items-center p-5 bg-white/80 backdrop-blur-md border-b sticky top-0 z-40">
+        <header className="glass-strong flex justify-between items-center p-5 sticky top-0 z-40">
           <div className="flex items-center space-x-3">
             <Avatar className="h-10 w-10 border-2 border-primary ring-2 ring-primary/5">
               <AvatarImage src={avatar?.imageUrl} alt="Explorer Avatar" />
@@ -112,7 +112,7 @@ export default function KidLayout({
           </div>
         </header>
         
-        <div className="p-4 sm:p-6 max-w-5xl mx-auto w-full">
+        <div className="p-4 pb-32 sm:p-6 sm:pb-32 md:pb-6 max-w-5xl mx-auto w-full">
           {children}
         </div>
       </main>

@@ -205,7 +205,7 @@ export default function EyeHealthPage() {
       </div>
 
       {activeMissionId && activeMission ? (
-        <Card className="rounded-[2.5rem] border-none shadow-2xl overflow-hidden animate-in zoom-in duration-300">
+        <Card className="rounded-[2.5rem] overflow-hidden animate-in zoom-in duration-300">
           <CardContent className="p-0">
             <div className="min-h-[300px] sm:min-h-[420px] bg-muted relative overflow-hidden flex flex-col items-center justify-center bg-gradient-to-b from-muted to-white">
               <img src={bgImage?.imageUrl} alt="Mission BG" className="absolute inset-0 w-full h-full object-cover opacity-10" />
@@ -223,7 +223,7 @@ export default function EyeHealthPage() {
               </div>
             </div>
             
-            <div className="p-8 sm:p-12 text-center space-y-8 bg-white">
+            <div className="p-8 sm:p-12 text-center space-y-8 glass-strong">
               <div className="space-y-4">
                 <h2 className="text-2xl sm:text-3xl font-black text-primary">{activeMission.title}</h2>
                 <div className="bg-primary/5 p-8 rounded-[2rem] border-4 border-primary/10 shadow-inner">
@@ -252,8 +252,8 @@ export default function EyeHealthPage() {
           </CardContent>
         </Card>
       ) : isDone ? (
-        <Card className="rounded-[2.5rem] border-none shadow-2xl bg-accent/20 p-10 sm:p-14 text-center space-y-6 animate-in slide-in-from-bottom-10">
-          <div className="bg-white p-8 rounded-[3rem] inline-block mx-auto shadow-xl relative">
+        <Card className="rounded-[2.5rem] bg-accent/20 p-10 sm:p-14 text-center space-y-6 animate-in slide-in-from-bottom-10">
+          <div className="glass-strong p-8 rounded-[3rem] inline-block mx-auto relative">
              <Award className="h-20 w-20 sm:h-28 sm:w-28 text-accent-foreground" />
              <div className="absolute -top-2 -right-2 bg-primary text-white p-2 rounded-full shadow-lg">
                 <CheckCircle2 className="h-6 w-6 sm:h-8 w-8" />
@@ -272,7 +272,7 @@ export default function EyeHealthPage() {
           {MISSIONS.map((m) => {
             const Icon = m.icon;
             return (
-              <Card key={m.id} className="rounded-[2rem] border-2 border-transparent hover:border-primary/20 transition-all kid-card-hover group bg-white shadow-sm overflow-hidden">
+              <Card key={m.id} className="rounded-[2rem] border-2 border-transparent hover:border-primary/20 transition-all kid-card-hover group overflow-hidden">
                 <CardHeader className="text-center space-y-2 pt-8">
                   <div className={cn(
                     "p-6 rounded-[1.5rem] inline-block mx-auto transition-transform group-hover:scale-110 shadow-inner",

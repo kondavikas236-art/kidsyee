@@ -82,7 +82,7 @@ export default function StoryChainPage() {
         <p className="text-muted-foreground font-medium">Create a masterpiece with your AI Buddy, {explorerName}!</p>
       </div>
 
-      <Card className="rounded-[2.5rem] border-2 border-primary/20 shadow-xl overflow-hidden bg-white">
+      <Card className="rounded-[2.5rem] border-2 border-primary/20 overflow-hidden">
         <CardContent className="p-0">
           <ScrollArea className="h-[400px] p-8">
             {!story ? (

@@ -45,7 +45,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex-1 flex items-center justify-center p-6 bg-gradient-to-b from-primary/5 to-background">
-      <Card className="w-full max-w-md rounded-[2.5rem] border-none shadow-2xl overflow-hidden bg-white">
+      <Card className="w-full max-w-md rounded-[2.5rem] overflow-hidden">
         <CardHeader className="space-y-1 text-center bg-primary/5 p-8">
           <div className="bg-white p-4 rounded-3xl inline-block shadow-sm mb-2 text-primary">
             <KidsyeeLogo className="h-10 w-10" />

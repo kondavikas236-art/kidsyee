@@ -80,7 +80,7 @@ export default function ParentSettings() {
       </div>
 
       <div className="grid gap-6">
-        <Card className="rounded-[2rem] border-none shadow-sm bg-white">
+        <Card className="rounded-[2rem]">
           <CardHeader>
             <div className="flex items-center gap-2 mb-2">
               <User className="h-5 w-5 text-primary" />
@@ -101,7 +101,7 @@ export default function ParentSettings() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-[2rem] border-none shadow-sm border-l-4 border-l-primary bg-white">
+        <Card className="rounded-[2rem] border-l-4 border-l-primary">
           <CardHeader>
              <div className="flex items-center gap-2 mb-2">
               <KidsyeeLogo className="h-6 w-6 text-primary" />
@@ -120,7 +120,7 @@ export default function ParentSettings() {
           </CardContent>
         </Card>
 
-        <Card className="rounded-[2rem] border-none shadow-sm bg-white">
+        <Card className="rounded-[2rem]">
           <CardHeader>
             <div className="flex items-center gap-2 mb-2">
               <Mail className="h-5 w-5 text-primary" />

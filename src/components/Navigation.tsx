@@ -29,7 +29,7 @@ export function Navigation() {
   if (links.length === 0) return null;
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t h-[72px] px-2 flex justify-around items-center z-50 shadow-[0_-4px_16px_rgba(0,0,0,0.05)] md:h-auto md:relative md:bg-transparent md:border-none md:p-6 md:flex-col md:items-start md:space-y-4">
+    <nav className="fixed bottom-3 left-3 right-3 glass-strong rounded-[2rem] h-[76px] px-2 flex justify-around items-center z-50 md:h-auto md:relative md:bg-transparent md:border-none md:shadow-none md:backdrop-blur-none md:rounded-none md:p-6 md:flex-col md:items-start md:space-y-4">
       {links.map((link) => {
         const Icon = link.icon;
         const active = pathname === link.href;
@@ -46,19 +46,16 @@ export function Navigation() {
           >
             <div className={cn(
               "p-1.5 rounded-full transition-all duration-300",
-              active ? "bg-primary/10 md:bg-transparent scale-110" : ""
+              active ? "bg-primary text-white shadow-lg shadow-primary/30 md:bg-transparent md:text-primary md:shadow-none" : ""
             )}>
               <Icon className={cn("h-6 w-6 transition-transform", active ? "stroke-[2.5px]" : "stroke-2")} />
             </div>
             <span className={cn(
-              "text-[10px] mt-1 font-bold tracking-tight md:text-sm md:mt-0 transition-all",
+              "text-xs mt-1 font-bold tracking-tight md:text-sm md:mt-0 transition-all",
               active ? "opacity-100 scale-105" : "opacity-80"
             )}>
               {link.label}
             </span>
-            {active && (
-              <div className="absolute bottom-1 w-1 h-1 bg-primary rounded-full md:hidden" />
-            )}
           </Link>
         );
       })}

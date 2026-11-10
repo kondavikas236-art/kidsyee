@@ -73,7 +73,7 @@ export default function AchievementsPage() {
           return (
             <Card key={badge.id} className={cn(
               "rounded-[2.5rem] border-2 transition-all hover:scale-105 relative overflow-hidden",
-              badge.earned ? "border-accent/40 bg-white" : "border-muted bg-muted/5 opacity-70"
+              badge.earned ? "border-accent/40 glass" : "border-muted bg-muted/5 opacity-70"
             )}>
               <CardContent className="p-8 flex flex-col items-center text-center space-y-4">
                 <div className={cn(

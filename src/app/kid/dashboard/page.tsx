@@ -40,6 +40,8 @@ export default function KidDashboard() {
   // Energy drains as the day's screen time approaches the parent's limit.
   const focusValue = Math.max(5, Math.round(100 - (usedMinutes / dailyLimit) * 100));
   const isLowFocus = focusValue < 30;
+  const minutesLeft = Math.max(0, dailyLimit - usedMinutes);
+  const usedPct = Math.min(100, (usedMinutes / dailyLimit) * 100);
   const promptShownRef = useRef(false);
 
   useEffect(() => {
@@ -75,25 +77,31 @@ export default function KidDashboard() {
 
   return (
     <div className="space-y-8 pb-12">
-      <div className="flex justify-between items-center bg-white/50 backdrop-blur-md p-4 rounded-[2rem] border border-white shadow-sm">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 bg-primary/10 rounded-full flex items-center justify-center">
-            <Shield className="h-6 w-6 text-primary" />
+      {/* Simple "time left today" bar a kid can read at a glance */}
+      <div className="glass-strong rounded-[2rem] p-5 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className={cn("h-11 w-11 rounded-2xl flex items-center justify-center text-white shadow-lg", minutesLeft > 0 ? "bg-primary shadow-primary/30" : "bg-destructive shadow-destructive/30")}>
+              <Timer className="h-6 w-6" />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider">Time left today</p>
+              <p className="text-2xl font-black leading-tight">{minutesLeft > 0 ? formatMinutes(minutesLeft) : "Time's up!"}</p>
+            </div>
           </div>
-          <div>
-            <p className="text-[10px] font-black uppercase text-muted-foreground tracking-widest">Active Protection</p>
-            <p className="text-sm font-bold text-foreground">Safe Zone Active</p>
-          </div>
+          <Badge variant="secondary" className="rounded-full bg-white/60 text-foreground border-white">
+            <Shield className="h-3.5 w-3.5 mr-1 text-primary" /> {explorerName}
+          </Badge>
         </div>
-        <Badge variant="secondary" className="bg-green-100 text-green-700 hover:bg-green-100 rounded-full border-green-200">
-          Monitoring {explorerName}
-        </Badge>
+        <div className="h-3 w-full rounded-full bg-white/60 overflow-hidden">
+          <div className={cn("h-full rounded-full transition-all duration-700", minutesLeft > 0 ? "bg-gradient-to-r from-emerald-400 via-sky-400 to-primary" : "bg-destructive")} style={{ width: `${Math.max(4, 100 - usedPct)}%` }} />
+        </div>
       </div>
 
-      <section className="relative overflow-hidden rounded-[3rem] bg-gradient-to-br from-white to-primary/5 p-8 border-4 border-white shadow-2xl">
+      <section className="relative overflow-hidden rounded-[3rem] glass p-8">
         <div className="flex flex-col items-center text-center space-y-6">
           <div className={cn(
-            "p-8 rounded-full bg-white shadow-inner relative transition-all duration-700",
+            "p-8 rounded-full bg-white/70 shadow-inner relative transition-all duration-700",
             isLowFocus ? "ring-8 ring-destructive/20" : "ring-8 ring-accent/20"
           )}>
             <div className={cn(
@@ -133,7 +141,7 @@ export default function KidDashboard() {
         </div>
 
         <div className="grid grid-cols-1 gap-6">
-          <Card className="rounded-[2.5rem] border-primary/20 overflow-hidden shadow-xl bg-white/80 backdrop-blur-sm">
+          <Card className="rounded-[2.5rem] border-primary/20 overflow-hidden">
             <CardContent className="p-8 space-y-8">
               <div className="max-w-3xl mx-auto">
                 <FocusMeter value={focusValue} label="Energy Level" />
@@ -146,21 +154,20 @@ export default function KidDashboard() {
                   </div>
                   <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Screen Time</p>
                   <p className="text-2xl font-black">{formatMinutes(usedMinutes)}</p>
-                  <p className="text-xs font-bold text-muted-foreground">of {formatMinutes(dailyLimit)} limit</p>
                 </div>
                 <div className="space-y-1">
                   <div className="bg-accent/10 p-4 rounded-3xl inline-block mb-1">
                     <Eye className="h-8 w-8 text-accent-foreground" />
                   </div>
-                  <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Eye Rests</p>
-                  <p className="text-2xl font-black">4/5</p>
+                  <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Daily Limit</p>
+                  <p className="text-2xl font-black">{formatMinutes(dailyLimit)}</p>
                 </div>
                 <div className="space-y-1">
                   <div className="bg-blue-100 p-4 rounded-3xl inline-block mb-1">
                     <Star className="h-8 w-8 text-blue-600" />
                   </div>
-                  <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Missions</p>
-                  <p className="text-2xl font-black">2 Done</p>
+                  <p className="text-sm font-bold text-muted-foreground uppercase tracking-wider">Time Left</p>
+                  <p className="text-2xl font-black">{formatMinutes(minutesLeft)}</p>
                 </div>
               </div>
 
@@ -212,7 +219,7 @@ export default function KidDashboard() {
             <h2 className="text-2xl font-bold">Recent Trophies</h2>
             <Link href="/kid/achievements" className="text-sm font-bold text-primary hover:underline">View All</Link>
           </div>
-          <Card className="rounded-3xl border-none shadow-lg bg-white p-6">
+          <Card className="rounded-3xl p-6">
             <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
               <div className="flex-shrink-0 flex flex-col items-center gap-2">
                  <div className="p-4 bg-blue-500 rounded-2xl text-white shadow-md">
@@ -239,7 +246,7 @@ export default function KidDashboard() {
 
       <section className="space-y-4">
         <h2 className="text-2xl font-bold">{explorerName}'s Eye Health Mix</h2>
-        <Card className="rounded-3xl border-none shadow-lg bg-white/50">
+        <Card className="rounded-3xl">
           <CardContent className="p-6">
             <div className="h-[200px] w-full">
               <ResponsiveContainer width="100%" height="100%">

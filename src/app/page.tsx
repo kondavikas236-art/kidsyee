@@ -39,7 +39,7 @@ export default function Home() {
 
   if (isUserLoading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-background">
+      <div className="flex h-screen items-center justify-center">
         <Loader2 className="h-10 w-10 animate-spin text-primary" />
       </div>
     );
@@ -56,7 +56,7 @@ export default function Home() {
           <p className="text-muted-foreground font-semibold">The Smart Screen Time Guardian</p>
         </div>
 
-        <Card className="w-full max-w-md rounded-[2.5rem] border-none shadow-2xl overflow-hidden bg-white">
+        <Card className="w-full max-w-md rounded-[2.5rem] overflow-hidden">
           <CardHeader className="space-y-1 text-center bg-primary/5 p-8">
             <CardTitle className="text-2xl font-black">
               {isSignUp ? "Create Account" : "Parent Login"}
@@ -134,7 +134,7 @@ export default function Home() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-5xl mb-24">
           <Link href="/kid/dashboard" className="group">
-            <div className="h-full bg-card border-4 border-primary/20 p-10 rounded-[3rem] transition-all hover:scale-[1.02] hover:shadow-2xl flex flex-col items-center text-center space-y-8 relative overflow-hidden">
+            <div className="glass h-full border-4 border-primary/20 p-10 rounded-[3rem] transition-all hover:scale-[1.02] hover:shadow-2xl flex flex-col items-center text-center space-y-8 relative overflow-hidden">
               <div className="p-8 rounded-full bg-primary/10 group-hover:bg-primary group-hover:text-white transition-all duration-500 shadow-inner">
                 <Activity className="h-20 w-20" />
               </div>
@@ -149,7 +149,7 @@ export default function Home() {
           </Link>
 
           <Link href="/parent/dashboard" className="group">
-            <div className="h-full bg-card border-4 border-accent/20 p-10 rounded-[3rem] transition-all hover:scale-[1.02] hover:shadow-2xl flex flex-col items-center text-center space-y-8 relative overflow-hidden">
+            <div className="glass h-full border-4 border-accent/20 p-10 rounded-[3rem] transition-all hover:scale-[1.02] hover:shadow-2xl flex flex-col items-center text-center space-y-8 relative overflow-hidden">
               <div className="p-8 rounded-full bg-accent/10 group-hover:bg-accent group-hover:text-accent-foreground transition-all duration-500 shadow-inner">
                 <KidsyeeLogo className="h-20 w-20" />
               </div>

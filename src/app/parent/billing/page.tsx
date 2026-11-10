@@ -87,7 +87,7 @@ export default function BillingPage() {
       </div>
 
       <div className="max-w-md mx-auto pt-4">
-        <Card className="rounded-[3rem] border-4 border-primary shadow-2xl bg-white relative overflow-hidden transition-all hover:scale-[1.01]">
+        <Card className="rounded-[3rem] border-4 border-primary relative overflow-hidden transition-all hover:scale-[1.01]">
           <div className="absolute top-0 right-0 p-6 opacity-5 pointer-events-none">
             <ShieldCheck className="h-40 w-40" />
           </div>
@@ -134,7 +134,7 @@ export default function BillingPage() {
         </Card>
       </div>
 
-      <div className="max-w-2xl mx-auto bg-white/50 border-2 border-dashed border-primary/20 p-6 rounded-[2.5rem] flex items-start gap-4 shadow-sm">
+      <div className="max-w-2xl mx-auto glass border-2 border-dashed border-primary/20 p-6 rounded-[2.5rem] flex items-start gap-4 shadow-sm">
         <div className="bg-primary/10 p-3 rounded-2xl text-primary">
           <Info className="h-6 w-6" />
         </div>
